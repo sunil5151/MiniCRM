@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { leadsApi } from '../api/leadsApi';
+import ThemeToggle from '../components/ThemeToggle';
 import './animations.css';
 
 const LeadsDashboard = () => {
@@ -109,19 +110,20 @@ const LeadsDashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 transition-colors duration-200">
       {/* Header */}
-      <header className="bg-white shadow-lg border-b border-gray-200">
+      <header className="bg-white dark:bg-gray-800 shadow-lg border-b border-gray-200 dark:border-gray-700 transition-colors duration-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-6">
             <div className="flex items-center space-x-4">
               <div className="flex-shrink-0">
-                <h1 className="text-3xl font-bold text-gray-900">CRM Leads</h1>
+                <h1 className="text-3xl font-bold text-gray-900 dark:text-white">CRM Leads</h1>
               </div>
             </div>
             
             <div className="flex items-center space-x-4">
-              <span className="text-gray-700">Welcome, {user?.name}</span>
+              <ThemeToggle />
+              <span className="text-gray-700 dark:text-gray-300">Welcome, {user?.name}</span>
               <Link
                 to="/payments"
                 className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg transition-colors duration-200"

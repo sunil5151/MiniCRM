@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { Link } from "react-router-dom"
+import { useTheme } from "../context/ThemeContext"
 import {
   FileText,
   Search,
@@ -15,9 +16,14 @@ import {
   Globe,
   AlertTriangle,
 } from "lucide-react"
+import ThemeToggle from "../components/ThemeToggle"
 
 function LandingPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const { isDarkMode } = useTheme()
+  
+  // Debug: Log theme state
+  console.log("LandingPage - isDarkMode:", isDarkMode)
 
   const features = [
     {
@@ -66,49 +72,51 @@ function LandingPage() {
   ]
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-200">
       {/* Navigation */}
-      <nav className="bg-white shadow-sm border-b border-gray-100 sticky top-0 z-50">
+      <nav className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-100 dark:border-gray-700 sticky top-0 z-50 transition-colors duration-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
             <div className="flex items-center">
-              <div className="inline-flex items-center justify-center w-10 h-10 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg mr-3">
+              <div className={`inline-flex items-center justify-center w-10 h-10 ${isDarkMode ? 'bg-gradient-to-r from-purple-500 to-blue-500' : 'bg-gradient-to-r from-purple-600 to-blue-600'} rounded-lg mr-3`}>
                 <div className="w-5 h-5 bg-white rounded-sm transform rotate-45"></div>
               </div>
-              <span className="text-xl font-bold text-gray-900">Mini CRM</span>
+              <span className="text-xl font-bold text-gray-900 dark:text-white">Mini CRM</span>
             </div>
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">
-              <a href="#features" className="text-gray-600 hover:text-purple-600 transition-colors duration-200">
+              <a href="#features" className="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors duration-200">
                 Features
               </a>
-              <a href="#about" className="text-gray-600 hover:text-purple-600 transition-colors duration-200">
+              <a href="#about" className="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors duration-200">
                 About
               </a>
-              <a href="#contact" className="text-gray-600 hover:text-purple-600 transition-colors duration-200">
+              <a href="#contact" className="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors duration-200">
                 Contact
               </a>
+              <ThemeToggle className="mx-2" />
               <Link
                 to="/login"
-                className="text-purple-600 hover:text-purple-700 font-medium transition-colors duration-200"
+                className="text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 font-medium transition-colors duration-200"
               >
                 Login
               </Link>
               <Link
                 to="/register"
-                className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-2 rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-300 transform hover:scale-105"
+                className={`${isDarkMode ? 'bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600' : 'bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700'} text-white px-6 py-2 rounded-lg transition-all duration-300 transform hover:scale-105`}
               >
                 Sign Up
               </Link>
             </div>
 
             {/* Mobile menu button */}
-            <div className="md:hidden">
+            <div className="md:hidden flex items-center space-x-2">
+              <ThemeToggle />
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="text-gray-600 hover:text-purple-600 transition-colors duration-200"
+                className="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors duration-200"
               >
                 {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
               </button>
@@ -117,23 +125,23 @@ function LandingPage() {
 
           {/* Mobile Navigation */}
           {isMenuOpen && (
-            <div className="md:hidden border-t border-gray-100 py-4 animate-fade-in">
+            <div className="md:hidden border-t border-gray-100 dark:border-gray-700 py-4 animate-fade-in">
               <div className="flex flex-col space-y-4">
-                <a href="#features" className="text-gray-600 hover:text-purple-600 transition-colors duration-200">
+                <a href="#features" className="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors duration-200">
                   Features
                 </a>
-                <a href="#about" className="text-gray-600 hover:text-purple-600 transition-colors duration-200">
+                <a href="#about" className="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors duration-200">
                   About
                 </a>
-                <a href="#contact" className="text-gray-600 hover:text-purple-600 transition-colors duration-200">
+                <a href="#contact" className="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors duration-200">
                   Contact
                 </a>
-                <Link to="/login" className="text-purple-600 hover:text-purple-700 font-medium">
+                <Link to="/login" className="text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 font-medium">
                   Login
                 </Link>
                 <Link
                   to="/register"
-                  className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-2 rounded-lg text-center hover:from-purple-700 hover:to-blue-700 transition-all duration-300"
+                  className={`${isDarkMode ? 'bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600' : 'bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700'} text-white px-6 py-2 rounded-lg text-center transition-all duration-300`}
                 >
                   Sign Up
                 </Link>
@@ -144,14 +152,14 @@ function LandingPage() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-purple-600 via-blue-600 to-teal-500 text-white">
+      <section className={`relative overflow-hidden ${isDarkMode ? 'bg-gradient-to-br from-purple-800 via-blue-800 to-teal-700' : 'bg-gradient-to-br from-purple-600 via-blue-600 to-teal-500'} text-white transition-all duration-200`}>
         {/* Animated Background Pattern */}
         <div className="absolute inset-0">
-          <div className="absolute top-20 left-20 w-32 h-32 bg-purple-400 rounded-full opacity-20 animate-float"></div>
-          <div className="absolute top-40 right-32 w-24 h-24 bg-blue-300 rounded-full opacity-30 animate-float-delayed"></div>
-          <div className="absolute bottom-32 left-16 w-40 h-40 bg-teal-400 rounded-full opacity-15 animate-float"></div>
-          <div className="absolute top-32 right-20 w-16 h-16 bg-yellow-400 transform rotate-45 animate-pulse"></div>
-          <div className="absolute bottom-40 right-40 w-12 h-12 bg-orange-400 rounded-full animate-bounce-slow"></div>
+          <div className={`absolute top-20 left-20 w-32 h-32 ${isDarkMode ? 'bg-purple-600' : 'bg-purple-400'} rounded-full opacity-20 animate-float`}></div>
+          <div className={`absolute top-40 right-32 w-24 h-24 ${isDarkMode ? 'bg-blue-500' : 'bg-blue-300'} rounded-full opacity-30 animate-float-delayed`}></div>
+          <div className={`absolute bottom-32 left-16 w-40 h-40 ${isDarkMode ? 'bg-teal-600' : 'bg-teal-400'} rounded-full opacity-15 animate-float`}></div>
+          <div className={`absolute top-32 right-20 w-16 h-16 ${isDarkMode ? 'bg-yellow-600' : 'bg-yellow-400'} transform rotate-45 animate-pulse`}></div>
+          <div className={`absolute bottom-40 right-40 w-12 h-12 ${isDarkMode ? 'bg-orange-600' : 'bg-orange-400'} rounded-full animate-bounce-slow`}></div>
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
@@ -166,14 +174,14 @@ function LandingPage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up-delayed">
               <Link
                 to="/register"
-                className="bg-white text-purple-600 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-lg"
+                className={`${isDarkMode ? 'bg-gray-100 text-purple-700 hover:bg-white' : 'bg-white text-purple-600 hover:bg-gray-100'} px-8 py-4 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg`}
               >
                 Get Started Free
                 <ArrowRight className="inline-block ml-2 w-5 h-5" />
               </Link>
               <Link
                 to="/login"
-                className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-purple-600 transition-all duration-300 transform hover:scale-105"
+                className={`border-2 border-white text-white px-8 py-4 rounded-lg font-semibold ${isDarkMode ? 'hover:bg-gray-100 hover:text-purple-700' : 'hover:bg-white hover:text-purple-600'} transition-all duration-300 transform hover:scale-105`}
               >
                 Login to Account
               </Link>
@@ -183,13 +191,13 @@ function LandingPage() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-gray-50 dark:bg-gray-800 transition-colors duration-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
               <div key={index} className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-purple-600 mb-2">{stat.number}</div>
-                <div className="text-gray-600">{stat.label}</div>
+                <div className="text-3xl md:text-4xl font-bold text-purple-600 dark:text-purple-400 mb-2">{stat.number}</div>
+                <div className="text-gray-600 dark:text-gray-300">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -197,11 +205,11 @@ function LandingPage() {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-20 bg-white">
+      <section id="features" className="py-20 bg-white dark:bg-gray-900 transition-colors duration-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Powerful Features for Modern CRM</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">Powerful Features for Modern CRM</h2>
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
               Our comprehensive CRM platform provides all the tools you need to manage customer relationships and
               drive sales growth.
             </p>
@@ -211,11 +219,11 @@ function LandingPage() {
             {features.map((feature, index) => (
               <div
                 key={index}
-                className="bg-white p-8 rounded-xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
+                className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
               >
-                <div className="text-purple-600 mb-4">{feature.icon}</div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">{feature.title}</h3>
-                <p className="text-gray-600 leading-relaxed">{feature.description}</p>
+                <div className="text-purple-600 dark:text-purple-400">{feature.icon}</div>
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">{feature.title}</h3>
+                <p className="text-gray-600 dark:text-gray-300 leading-relaxed">{feature.description}</p>
               </div>
             ))}
           </div>
@@ -223,11 +231,11 @@ function LandingPage() {
       </section>
 
       {/* Technical Implementation Section */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-gray-50 dark:bg-gray-800 transition-colors duration-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Built with Modern Technology</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">Built with Modern Technology</h2>
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
               Our CRM platform leverages cutting-edge technologies to deliver a robust and scalable customer management solution.
             </p>
           </div>
@@ -235,40 +243,40 @@ function LandingPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
               <div className="flex items-start space-x-4">
-                <CheckCircle className="w-6 h-6 text-green-500 mt-1 flex-shrink-0" />
+                <CheckCircle className="w-6 h-6 text-green-500 dark:text-green-400 mt-1 flex-shrink-0" />
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Full-Stack Architecture</h3>
-                  <p className="text-gray-600">
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Full-Stack Architecture</h3>
+                  <p className="text-gray-600 dark:text-gray-300">
                     Built with modern React frontend and robust Node.js backend with comprehensive API endpoints.
                   </p>
                 </div>
               </div>
 
               <div className="flex items-start space-x-4">
-                <CheckCircle className="w-6 h-6 text-green-500 mt-1 flex-shrink-0" />
+                <CheckCircle className="w-6 h-6 text-green-500 dark:text-green-400 mt-1 flex-shrink-0" />
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Secure Authentication</h3>
-                  <p className="text-gray-600">
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Secure Authentication</h3>
+                  <p className="text-gray-600 dark:text-gray-300">
                     JWT-based authentication with role-based access control for enhanced security.
                   </p>
                 </div>
               </div>
 
               <div className="flex items-start space-x-4">
-                <CheckCircle className="w-6 h-6 text-green-500 mt-1 flex-shrink-0" />
+                <CheckCircle className="w-6 h-6 text-green-500 dark:text-green-400 mt-1 flex-shrink-0" />
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Cloud Storage Integration</h3>
-                  <p className="text-gray-600">
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Cloud Storage Integration</h3>
+                  <p className="text-gray-600 dark:text-gray-300">
                     Seamless file uploads and management with Supabase Storage integration.
                   </p>
                 </div>
               </div>
 
               <div className="flex items-start space-x-4">
-                <AlertTriangle className="w-6 h-6 text-yellow-500 mt-1 flex-shrink-0" />
+                <AlertTriangle className="w-6 h-6 text-yellow-500 dark:text-yellow-400 mt-1 flex-shrink-0" />
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Deployment Considerations</h3>
-                  <p className="text-gray-600">
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Deployment Considerations</h3>
+                  <p className="text-gray-600 dark:text-gray-300">
                     While Docker containerization was explored for deployment, we've optimized for traditional hosting
                     solutions to ensure maximum compatibility and performance.
                   </p>
@@ -276,7 +284,7 @@ function LandingPage() {
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-purple-600 to-blue-600 rounded-xl p-8 text-white">
+            <div className={`${isDarkMode ? 'bg-gradient-to-br from-purple-700 to-blue-700' : 'bg-gradient-to-br from-purple-600 to-blue-600'} rounded-xl p-8 text-white transition-all duration-200`}>
               <h3 className="text-2xl font-bold mb-6">Technical Highlights</h3>
               <ul className="space-y-4">
                 <li className="flex items-center space-x-3">
@@ -310,7 +318,7 @@ function LandingPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-purple-600 to-blue-600 text-white">
+      <section className={`py-20 ${isDarkMode ? 'bg-gradient-to-r from-purple-700 to-blue-700' : 'bg-gradient-to-r from-purple-600 to-blue-600'} text-white transition-all duration-200`}>
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Transform Your Customer Management?</h2>
           <p className="text-xl mb-8 opacity-90">
@@ -320,13 +328,13 @@ function LandingPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               to="/register"
-              className="bg-white text-purple-600 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-lg"
+              className={`${isDarkMode ? 'bg-gray-100 text-purple-700 hover:bg-white' : 'bg-white text-purple-600 hover:bg-gray-100'} px-8 py-4 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg`}
             >
               Start Free Trial
             </Link>
             <Link
               to="/login"
-              className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-purple-600 transition-all duration-300 transform hover:scale-105"
+              className={`border-2 border-white text-white px-8 py-4 rounded-lg font-semibold ${isDarkMode ? 'hover:bg-gray-100 hover:text-purple-700' : 'hover:bg-white hover:text-purple-600'} transition-all duration-300 transform hover:scale-105`}
             >
               Login Now
             </Link>
@@ -335,12 +343,12 @@ function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12">
+      <footer className="bg-gray-900 dark:bg-gray-950 text-white py-12 transition-colors duration-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="col-span-1 md:col-span-2">
               <div className="flex items-center mb-4">
-                <div className="inline-flex items-center justify-center w-10 h-10 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg mr-3">
+                <div className={`inline-flex items-center justify-center w-10 h-10 ${isDarkMode ? 'bg-gradient-to-r from-purple-500 to-blue-500' : 'bg-gradient-to-r from-purple-600 to-blue-600'} rounded-lg mr-3`}>
                   <div className="w-5 h-5 bg-white rounded-sm transform rotate-45"></div>
                 </div>
                 <span className="text-xl font-bold">Mini CRM</span>

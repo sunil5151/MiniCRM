@@ -3,6 +3,7 @@ import axios from 'axios';
 import { API_BASE } from './config';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
+import { ThemeProvider } from './context/ThemeContext';
 import ProtectedRoute from './components/ProtectedRoute';
 
 // Pages
@@ -30,8 +31,9 @@ import AdminLeads from './pages/AdminLeads';
 
 function App() {
   return (
-    <AuthProvider>
-      <Router>
+    <ThemeProvider>
+      <AuthProvider>
+        <Router>
         <Routes>
           {/* Set landing page as the default route */}
           <Route path="/" element={<LandingPage />} />
@@ -201,8 +203,9 @@ function App() {
           {/* Catch all route - redirect to landing page instead of login */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
-      </Router>
-    </AuthProvider>
+        </Router>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
 

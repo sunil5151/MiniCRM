@@ -6,6 +6,7 @@ import authApi from "../api/authApi"
 import { validateForm } from "../utils/validators"
 import { useAuth } from "../context/AuthContext"
 import { Eye, EyeOff, Mail, Lock, Crown } from "lucide-react"
+import ThemeToggle from "../components/ThemeToggle"
 import "./styles/animations.css"
 
 function LoginPage() {
@@ -79,17 +80,22 @@ function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex">
+    <div className="min-h-screen flex bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
+      {/* Theme Toggle - Top Right */}
+      <div className="absolute top-4 right-4 z-10">
+        <ThemeToggle />
+      </div>
+      
       {/* Left Side - Login Form */}
-      <div className="flex-1 flex items-center justify-center p-8 bg-white">
+      <div className="flex-1 flex items-center justify-center p-8 bg-white dark:bg-gray-800 transition-colors duration-200">
         <div className="w-full max-w-md space-y-8 animate-fade-in">
           {/* Logo */}
           <div className="text-center">
             <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg mb-4 transform hover:scale-110 transition-transform duration-300">
               <Crown className="h-6 w-6 text-white" />
             </div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome to Mini CRM</h1>
-            <p className="text-gray-600">Sign in to manage your customers and leads.</p>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Welcome to Mini CRM</h1>
+            <p className="text-gray-600 dark:text-gray-300">Sign in to manage your customers and leads.</p>
           </div>
 
           {/* Error Message */}
